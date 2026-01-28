@@ -26,5 +26,5 @@ class Category:
     def products(self) -> str | None:
         products = ""
         for product in self.__products:
-            products += f"{product.name}, {product.price} руб. Остаток:{product.quantity} шт\n"
+            products += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
         return products

@@ -3,7 +3,6 @@ class Product:
 
     name: str
     description: str
-    price: float
     quantity: int
 
     all_products: list[Product] = []
@@ -15,11 +14,11 @@ class Product:
         self.quantity = quantity
 
     @property
-    def product_price(self) -> float:
+    def price(self) -> float:
         return self.__price
 
-    @product_price.setter
-    def product_price(self, price: float) -> None:
+    @price.setter
+    def price(self, price: float) -> None:
         if price <= 0:
             raise ValueError("Цена не должна быть нулевая или отрицательная")
 
@@ -44,8 +43,8 @@ class Product:
         for product in cls.all_products:
             if product.name == name:
                 product.quantity += quantity
-                if price > product.product_price:
-                    product.product_price = price
+                if price > product.price:
+                    product.price = price
                 return product
 
         new_product = cls(name, description, price, quantity)

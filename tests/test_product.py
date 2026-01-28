@@ -17,7 +17,7 @@ def test_create_new_product() -> None:
 
     assert product.name == "Яблоко"
     assert product.description == "Зелёное яблоко"
-    assert product.product_price == 50
+    assert product.price == 50
     assert product.quantity == 10
     assert product in Product.all_products
 
@@ -34,7 +34,7 @@ def test_update_existing_product() -> None:
 
     assert product1.quantity == 15
 
-    assert product1.product_price == 55
+    assert product1.price == 55
 
     assert len(Product.all_products) == 1
 
@@ -43,21 +43,21 @@ def test_product_price_setter_raise() -> None:
     product = Product.new_product({"name": "Банан", "description": "Жёлтый банан", "price": 30, "quantity": 5})
 
     with pytest.raises(ValueError):
-        product.product_price = 0
+        product.price = 0
     with pytest.raises(ValueError):
-        product.product_price = -10
+        product.price = -10
 
 
 def test_product_price_setter_decrease(monkeypatch: Any) -> None:
     product = Product.new_product({"name": "Груша", "description": "Спелая груша", "price": 40, "quantity": 2})
 
     monkeypatch.setattr("builtins.input", lambda: "y")
-    product.product_price = 30
-    assert product.product_price == 30
+    product.price = 30
+    assert product.price == 30
 
     monkeypatch.setattr("builtins.input", lambda: "n")
-    product.product_price = 20
-    assert product.product_price == 30
+    product.price = 20
+    assert product.price == 30
 
 
 def test_multiple_products() -> None:

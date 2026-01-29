@@ -50,3 +50,10 @@ class Product:
         new_product = cls(name, description, price, quantity)
         cls.all_products.append(new_product)
         return new_product
+
+    def __str__(self) -> str:
+        return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт.\n"
+
+    def __add__(self, other: "Product") -> float:
+        total = self.price * self.quantity + other.price * other.quantity
+        return total

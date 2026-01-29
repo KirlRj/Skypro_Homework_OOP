@@ -10,6 +10,24 @@ def clear_all_products() -> None:
 
     Product.all_products.clear()
 
+@pytest.fixture
+def product_1():
+    return Product(
+        name="Яблоко",
+        description="Зелёное яблоко",
+        price=50,
+        quantity=10
+    )
+
+
+@pytest.fixture
+def product_2():
+    return Product(
+        name="Банан",
+        description="Жёлтый банан",
+        price=70,
+        quantity=5
+    )
 
 def test_create_new_product() -> None:
     data = {"name": "Яблоко", "description": "Зелёное яблоко", "price": 50, "quantity": 10}
@@ -70,3 +88,11 @@ def test_multiple_products() -> None:
     names = [p.name for p in Product.all_products]
     assert "Яблоко" in names
     assert "Банан" in names
+
+
+def test_product_str(product_1):
+    assert str(product_1) == "Яблоко, 50 руб. Остаток: 10 шт.\n"
+
+
+def test_product_add(product_1, product_2):
+    assert product_1 + product_2 == 850

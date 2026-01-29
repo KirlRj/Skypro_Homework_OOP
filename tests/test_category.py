@@ -26,6 +26,17 @@ def category_1() -> Category:
     category = Category(name="Фрукты", description="Категория 'Фрукты'", products=[apple, orange, pear, banana])
     return category
 
+@pytest.fixture
+def category_3():
+    apple = Product("Яблоко", "Свежие яблоки", 50, 10)
+    banana = Product("Банан", "Жёлтые бананы", 70, 5)
+
+    category = Category("Фрукты", "Свежие фрукты")
+    category.add_product(apple)
+    category.add_product(banana)
+
+    return category
+
 
 def test_category(category_2: Category) -> None:
     assert category_2.name == "Овощи"
@@ -46,3 +57,7 @@ def test_category_1(category_1: Category) -> None:
     assert "Банан" in category_1.products
     assert category_1.category_count >= 2
     assert category_1.product_count >= 7
+
+
+def test_category_str(category_3):
+    assert str(category_3) == "Фрукты, количество продуктов: 15"

@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from src.product import Product
+from src.product import LawnGrass, Product, Smartphone
 
 
 @pytest.fixture(autouse=True)
@@ -88,3 +88,64 @@ def test_product_str(product_1: Any) -> None:
 
 def test_product_add(product_1: Any, product_2: Any) -> None:
     assert product_1 + product_2 == 850
+
+
+def test_smartphone_creation() -> None:
+    phone = Smartphone(
+        name="iPhone 15",
+        description="256GB Black",
+        price=120000.0,
+        quantity=3,
+        efficiency=98.5,
+        model="15 Pro",
+        memory=256,
+        color="Black",
+    )
+
+    assert isinstance(phone, Product)
+    assert phone.name == "iPhone 15"
+    assert phone.price == 120000.0
+    assert phone.quantity == 3
+    assert phone.efficiency == 98.5
+    assert phone.model == "15 Pro"
+    assert phone.memory == 256
+    assert phone.color == "Black"
+
+
+def test_lawn_grass_creation() -> None:
+    grass = LawnGrass(
+        name="GreenField",
+        description="Газон для дачи",
+        price=500.0,
+        quantity=20,
+        country="Россия",
+        germination_period="14",
+        color="Зеленый",
+    )
+
+    assert isinstance(grass, Product)
+    assert grass.name == "GreenField"
+    assert grass.price == 500.0
+    assert grass.quantity == 20
+    assert grass.country == "Россия"
+    assert grass.germination_period == "14"
+    assert grass.color == "Зеленый"
+
+
+def test_add_same_type_products() -> None:
+    phone1 = Smartphone("Samsung", "S23", 100000.0, 2, 95.0, "S23", 256, "Gray")
+
+    phone2 = Smartphone("Samsung", "S24", 120000.0, 1, 97.0, "S24", 512, "Black")
+
+    total = phone1 + phone2
+
+    assert total == (100000.0 * 2 + 120000.0 * 1)
+
+
+def test_add_different_types_raises_error() -> None:
+    phone = Smartphone("Samsung", "S23", 100000.0, 2, 95.0, "S23", 256, "Gray")
+
+    grass = LawnGrass("Green", "Газон", 500.0, 10, "Россия", "14", "Зеленый")
+
+    with pytest.raises(TypeError):
+        phone + grass

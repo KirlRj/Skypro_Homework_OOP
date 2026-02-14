@@ -1,8 +1,10 @@
 from src.category import Category
-from src.product import Product
+from src.product import Product, Smartphone
 
 if __name__ == "__main__":
-    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product1 = Smartphone(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 10, "asda", 16, "qeq"
+    )
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
 
@@ -48,5 +50,4 @@ if __name__ == "__main__":
     print(Category.category_count)
     print(Category.product_count)
 
-    print(product4)
-    print(repr(product4))
+    print(repr(product1))

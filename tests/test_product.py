@@ -169,3 +169,56 @@ def test_smartphone_repr() -> None:
 def test_lawn_grass_repr() -> None:
     grass = LawnGrass("Газон", "Трава", 1000, 5, "Россия", "14", "зеленый")
     assert repr(grass) == "LawnGrass(Газон, Трава, 1000, 5)"
+
+
+def test_product_init_with_zero_quantity() -> None:
+    with pytest.raises(ValueError) as exc_info:
+        Product(name="Тест", description="Описание", price=100, quantity=0)
+
+    assert str(exc_info.value) == "Товар с нулевым количеством не может быть добавлен"
+
+
+def test_product_init_with_positive_quantity() -> None:
+    try:
+        product = Product(name="Тест", description="Описание", price=100, quantity=5)
+    except ValueError:
+        pytest.fail("Исключение ValueError не должно было возникнуть")
+    else:
+        assert product.quantity == 5
+
+
+def test_product_init_with_negative_quantity() -> None:
+    # Если нет проверки на отрицательное значение, тест проходит
+    product = Product(name="Тест", description="Описание", price=100, quantity=-5)
+    assert product.quantity == -5
+
+
+def test_smartphone_init_with_zero_quantity() -> None:
+    with pytest.raises(ValueError) as exc_info:
+        Smartphone(
+            name="iPhone",
+            description="Смартфон",
+            price=80000,
+            quantity=0,
+            efficiency=95.5,
+            model="13",
+            memory=128,
+            color="черный",
+        )
+
+    assert str(exc_info.value) == "Товар с нулевым количеством не может быть добавлен"
+
+
+def test_lawn_grass_init_with_zero_quantity() -> None:
+    with pytest.raises(ValueError) as exc_info:
+        LawnGrass(
+            name="Газон",
+            description="Трава",
+            price=1000,
+            quantity=0,
+            country="Россия",
+            germination_period="14",
+            color="зеленый",
+        )
+
+    assert str(exc_info.value) == "Товар с нулевым количеством не может быть добавлен"

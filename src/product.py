@@ -62,6 +62,8 @@ class Product(BaseProduct, MixinProduct):
         self.description = description
         self.__price = price
         self.quantity = quantity
+        if quantity == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
 
     @property
     def price(self) -> float:
@@ -88,6 +90,8 @@ class Product(BaseProduct, MixinProduct):
         name = data["name"]
         description = data["description"]
         price = data["price"]
+        if price == 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
         quantity = data["quantity"]
 
         for product in cls.all_products:

@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from src.product import LawnGrass, Product, Smartphone, BaseProduct,MixinProduct
+from src.product import BaseProduct, LawnGrass, Product, Smartphone
 
 
 @pytest.fixture(autouse=True)
@@ -150,21 +150,22 @@ def test_add_different_types_raises_error() -> None:
     with pytest.raises(TypeError):
         phone + grass
 
-def test_base_product_abstract():
+
+def test_base_product_abstract() -> None:
     with pytest.raises(TypeError):
         BaseProduct("", "", 0, 0)
 
 
-def test_product_repr():
+def test_product_repr() -> None:
     product = Product("Яблоко", "Зелёное", 50, 10)
     assert repr(product) == "Product(Яблоко, Зелёное, 50, 10)"
 
 
-def test_smartphone_repr():
+def test_smartphone_repr() -> None:
     phone = Smartphone("iPhone", "Смартфон", 80000, 3, 95.5, "13", 128, "черный")
     assert repr(phone) == "Smartphone(iPhone, Смартфон, 80000, 3)"
 
 
-def test_lawn_grass_repr():
+def test_lawn_grass_repr() -> None:
     grass = LawnGrass("Газон", "Трава", 1000, 5, "Россия", "14", "зеленый")
     assert repr(grass) == "LawnGrass(Газон, Трава, 1000, 5)"

@@ -1,4 +1,54 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class BaseProduct(ABC):
+
+    @abstractmethod
+    def __init__(self, name: str, description: str, price: float, quantity: int):
+
+        self.name = name
+        self.description = description
+        self.price = price  # Здесь будет срабатывать сеттер
+        self.quantity = quantity
+
+    @property
+    @abstractmethod
+    def price(self) -> float:
+        """Абстрактный геттер для цены"""
+        pass
+
+    @price.setter
+    @abstractmethod
+    def price(self, value: float) -> None:
+        """Абстрактный сеттер для цены"""
+        pass
+
+    @classmethod
+    @abstractmethod
+    def new_product(cls, data: dict) -> "BaseProduct":
+        """Абстрактный класс-метод для создания продукта"""
+        pass
+
+    @abstractmethod
+    def __str__(self) -> str:
+        """Абстрактный строковый метод"""
+        pass
+
+    @abstractmethod
+    def __add__(self, other: "BaseProduct") -> float:
+        """Абстрактный метод сложения продуктов"""
+        pass
+
+
+class MixinProduct:
+
+    def __repr__(self):
+        class_name = self.__class__.__name__
+        data = f"{self.name}, {self.description}, {self.price}, {self.quantity}"
+        return f"{class_name}({data})"
+
+
+class Product(BaseProduct, MixinProduct):
     """Класс продукта. Структура: имя, описание, цена, количество"""
 
     name: str
@@ -34,7 +84,7 @@ class Product:
             self.__price = price
 
     @classmethod
-    def new_product(cls, data: dict) -> "Product":
+    def new_product(cls, data: dict) -> "BaseProduct":
         name = data["name"]
         description = data["description"]
         price = data["price"]
@@ -54,7 +104,7 @@ class Product:
     def __str__(self) -> str:
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт.\n"
 
-    def __add__(self, other: "Product") -> float:
+    def __add__(self, other: "BaseProduct") -> float:
         if type(self) is type(other):
             total = self.price * self.quantity + other.price * other.quantity
             return total

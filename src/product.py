@@ -1,4 +1,13 @@
-class Product:
+from abc import ABC
+
+
+class Mixin:
+
+    def __repr__(self):
+        return f"{self.name}, {self.description}, {self.price}, {self.quantity}"
+
+
+class Product(ABC, Mixin):
     """Класс продукта. Структура: имя, описание, цена, количество"""
 
     name: str

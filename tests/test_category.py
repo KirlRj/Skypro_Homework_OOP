@@ -39,6 +39,25 @@ def category_3() -> Category:
     return category
 
 
+@pytest.fixture
+def empty_category() -> Category:
+    return Category(name="Пустая", description="Категория без товаров", products=[])
+
+
+@pytest.fixture
+def category_with_products() -> Category:
+    product1 = Product(name="Яблоко", description="Зелёное", price=50, quantity=10)
+    product2 = Product(name="Банан", description="Жёлтый", price=70, quantity=5)
+    product3 = Product(name="Апельсин", description="Оранжевый", price=80, quantity=3)
+    return Category(name="Фрукты", description="Фрукты", products=[product1, product2, product3])
+
+
+@pytest.fixture
+def category_with_one_product() -> Category:
+    product = Product(name="Яблоко", description="Зелёное", price=50, quantity=10)
+    return Category(name="Фрукты", description="Фрукты", products=[product])
+
+
 def test_category(category_2: Category) -> None:
     assert category_2.name == "Овощи"
     assert category_2.description == "Категория 'Овощи'"
@@ -62,3 +81,22 @@ def test_category_1(category_1: Category) -> None:
 
 def test_category_str(category_3: Category) -> None:
     assert str(category_3) == "Фрукты, количество продуктов: 15"
+
+
+def test_average_price_empty_category(empty_category: Category) -> None:
+    assert empty_category.middle_price() == 0
+
+
+def test_average_price_with_products(category_with_products: Category) -> None:
+    expected = (50 + 70 + 80) / 3
+    assert category_with_products.middle_price() == expected
+
+
+def test_average_price_one_product(category_with_one_product: Category) -> None:
+    assert category_with_one_product.middle_price() == 50
+
+
+def test_average_price_with_zero_price_product() -> None:
+    product = Product(name="Тест", description="Описание", price=0, quantity=5)
+    category = Category(name="Тест", description="Описание", products=[product])
+    assert category.middle_price() == 0
